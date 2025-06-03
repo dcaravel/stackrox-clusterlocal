@@ -22,6 +22,7 @@ while read -r json; do
         continue
     fi
 
+    # Skip images that are flagged as cluster local
     name=$(echo $json | jq -r '.result.image.name.fullName')
     if [[ "$name" == "image-registry.openshift-image-registry"* ]]; then
         echo "Skipping: $name"

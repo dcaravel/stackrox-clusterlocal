@@ -12,9 +12,14 @@ if [[ ! -f $TMP_FILE_NAME ]]; then
     exit 1
 fi
 
+line_count=$(wc -l < $TMP_FILE_NAME | xargs)
+if [[ "$((line_count))" -eq 0 ]]; then
+    echo "Nothing to do, $TMP_FILE_NAME is empty"
+    exit 0
+fi
+
 verify_delegated_scanning_disabled
 
-line_count=$(wc -l < $TMP_FILE_NAME | xargs)
 read -p "Are you sure you want to re-scan $line_count images? [Y/n]: " result
 result=$(echo $result | tr '[:upper:]' '[:lower:]')
 if [[ ! -z $result && $result != "y" ]]; then
